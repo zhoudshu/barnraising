@@ -1,0 +1,42 @@
+On NATs: it's hard for a person behind a NAT to contribute much of
+anything as a server.  Still, they can connect out...  Can we use the
+double-ended connect as a tool for good?
+
+On the (caching) payload expander modules.  The architecture is that
+the forwarding daemon thread has a pointer to an opaque object which
+expands payload IDs.  This object (optionally) first checks the
+filesystem, then falls back to a socket (unix or TCP domain) with a
+standard GET protocol.  The other end of the socket could be the
+primary, but if the Cache daemon is active, it should be a unix domain
+socket to the caching daemon on the local host.  The caching daemon
+maintains a socket(s) to the primary and/or into a P2P network.
+
+- Recap of basic system: opaque object -> socket -> TCP -> primary.
+- Minor note: in the future all these connections (esp P2P, primary)
+  should be pregenerated and queued, to avoid startup latencies.
+- A challenge will be identifying the local unix socket to both the
+  caching daemon and the forwarding daemon.  Solution: start caching
+  daemon first, then imptls; pass the return value of Cache to ImpTLS.
+
+
+
+Dependencies:
+  perl
+  mysql
+  mydns
+  apache / stunnel / s_server
+  (openssl)
+ From CPAN:
+  Error
+  Pod::Usage
+  DBI
+  DBD::mysql
+  Digest::MD5
+  Digest::SHA1
+  Crypt::RC4
+  Crypt::DES
+  Crypt::DES_EDE3
+  Crypt::CBC  ( whose tests depend on Crypt::Rijndael )
+  Inline
+  Inline::C
+

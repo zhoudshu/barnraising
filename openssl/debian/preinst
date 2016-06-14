@@ -1,0 +1,36 @@
+#!/bin/sh -e
+
+if [ -L /etc/ssl ]
+then
+  echo Removing obsolete link /etc/ssl
+  rm /etc/ssl
+fi
+if [ ! -d /etc/ssl ]
+then
+  echo Creating directory /etc/ssl
+  mkdir /etc/ssl
+fi
+if [ -d /usr/lib/ssl ]
+then
+  for file in lib certs private
+  do
+    if [ ! -L /usr/lib/ssl/$file ]
+    then
+      echo Moving $file from /usr/lib/ssl to /etc/ssl
+      cp -av /usr/lib/ssl/$file /etc/ssl || true
+      rm -fr /usr/lib/ssl/$file
+    fi
+  done
+fi
+if [ -L /usr/lib/ssl ]
+then
+  echo Removeing obsolete link /usr/lib/ssl
+  rm /usr/lib/ssl
+fi
+if [ -e /etc/ssl/lib/openssl.cnf ]
+then
+  echo Moving openssl.cnf
+  mv /etc/ssl/lib/openssl.cnf /etc/ssl/
+fi
+
+#DEBHELPER#

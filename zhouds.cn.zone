@@ -1,0 +1,10 @@
+@ IN SOA localhost. zhoudshu.gmail.com. (
+                2013032901	; serial
+                60		    ; refresh (1 minute)
+                3600	    ; retry (1 hour)
+	            604800	    ; expire (1 week)
+	            3600	    ; minimum (1 hour)
+	    )
+           IN     NS    ns.zhouds.cn. 
+www        IN     A     10.10.100.1
+ns         IN     A     10.10.100.1

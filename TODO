@@ -1,0 +1,23 @@
+Traces:
+ - convert access.log to usable trace + server dir
+
+Latency/throughput harness:
+ - run tests with keep-alive
+ - run tests with proxy, client, and server on different machines
+   - run with machines spread over internet (low priority)
+ - handle traces
+ - use -C switch to avoid timestamp truncation
+ - periodically record CPU stats
+ - redesign with master daemons running on each minion
+   - less kludgey ordering
+   - get rid of dormant perl processes
+   - run tests repeatedly if failed
+   - eliminate dependence on local filesystem as much as possible (tar?)
+
+Bandwidth harness:
+ - run tests with keep-alive
+   - do we need to redesign the caching block structure?
+ - how do we simulate limited cache size resources?
+
+Https-generate
+ - fix connection pools for multiple host:ports (low priority)
